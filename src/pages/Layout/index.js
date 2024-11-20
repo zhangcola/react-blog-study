@@ -71,7 +71,7 @@ const GeekLayout = (props) => {
                     <Menu
                         mode="inline"
                         theme="dark"
-                        defaultSelectedKeys={['1']}
+                        defaultSelectedKeys={['/']}
                         style={{ height: '100%', borderRight: 0 }}
                         items={items}
                         onClick={onMenuClick}
