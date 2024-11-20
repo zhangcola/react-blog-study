@@ -1,0 +1,30 @@
+.logo {
+    width: 200px;
+    height: 60px;
+    background: url("~@/assets/logo.png") no-repeat center / 160px  auto;
+    
+}
+
+.ant-layout {
+    height: 100%;
+  }
+
+.user-info {
+    position:absolute;
+    right: 15px;
+    top: 0;
+    padding: 3px;
+    color: white;
+
+    .user-name {
+        margin-right: 20px;   
+    }
+}
+
+.layout-content{
+    padding: 20px;
+    background: #f0f2f5;
+    overflow-y: auto;
+    height: 100%;
+    width: 100%;
+}
