@@ -11,6 +11,7 @@ import { Outlet , useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { clearUserInfo, fetchUserInfo } from "@/store/modules/user";
+import { useLocation } from "react-router-dom";
 
 const {Header,  Sider } = Layout;
 
@@ -36,6 +37,8 @@ const GeekLayout = (props) => {
   
     const dispatch = useDispatch()
     const navigate = useNavigate();
+    const location = useLocation(); // 获取当前路径
+
     const onMenuClick = (e) => {
       navigate(e.key)
     }
@@ -52,6 +55,10 @@ const GeekLayout = (props) => {
       dispatch(clearUserInfo())
       navigate('/login')
     }
+
+  // 根据当前路径设置 selectedKeys
+  const selectedKey = location.pathname === "/" ? "/" : "/" + location.pathname.split("/")[1];
+    console.log(selectedKey)
     
     return(
         <Layout>
@@ -71,7 +78,7 @@ const GeekLayout = (props) => {
                     <Menu
                         mode="inline"
                         theme="dark"
-                        defaultSelectedKeys={['/']}
+                        defaultSelectedKeys={[selectedKey]}
                         style={{ height: '100%', borderRight: 0 }}
                         items={items}
                         onClick={onMenuClick}
