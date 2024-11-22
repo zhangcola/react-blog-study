@@ -51,7 +51,6 @@ const GeekLayout = (props) => {
     }, [dispatch])
 
     const handleQuit = () => {
-      console.log('退出')
       dispatch(clearUserInfo())
       navigate('/login')
     }

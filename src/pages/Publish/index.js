@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Form, Input, Radio, Select, Upload } from "antd"
+import { Breadcrumb, Button, Card, Form, Input, message, Radio, Select, Upload } from "antd"
 import FormItem from "antd/es/form/FormItem"
 import { useEffect, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
@@ -7,7 +7,7 @@ import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 import './index.scss'
 import { useChannel } from "@/hooks/useChannel"
-import { getArticleById } from "@/apis/article"
+import { getArticleById , updateArticleAPI, createArticleAPI} from "@/apis/article"
 
 const Publish = () => {
 
@@ -18,6 +18,27 @@ const Publish = () => {
 
     const onFinish = (values) => {
         console.log(values)
+        //const {channel_id, content, title, type} = values
+        const params = {
+            ...values,
+            cover: {
+                type: imageType,
+                images: imageList.map(item => {
+                    if (item.response) {
+                        return item.response.data.url
+                    } else {
+                        return item.url
+                    }
+                })
+            }
+        }
+        if (articleId) {
+            params.id = articleId
+            updateArticleAPI(params)
+        } else {
+            createArticleAPI(params)
+        }
+        message.success('保存成功')
     }
 
     const [imageType, setImageType] = useState(0)

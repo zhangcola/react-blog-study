@@ -3,9 +3,11 @@ import { createBrowserRouter } from "react-router-dom";
 import Login from "@/pages/Login";
 import GeekLayout from "@/pages/Layout";
 import AuthRoute from "@/components/AuthRoute";
-import Article from "@/pages/Article";
-import Publish from "@/pages/Publish";
-import Home from "@/pages/Home";
+import { lazy, Suspense } from "react";
+
+const HomeLazy = lazy(() => import('@/pages/Home'))
+const PublishLazy = lazy(() => import('@/pages/Publish'))
+const ArticleLazy = lazy(() => import('@/pages/Article'))
 
 const router = createBrowserRouter([
     {
@@ -18,15 +20,15 @@ const router = createBrowserRouter([
         , children: [  // 二级路由
             {
                 path: 'article',
-                element: <Article />
+                element: <Suspense fallback="加载中..."><ArticleLazy /></Suspense>
             },
             {
                 path: 'publish',
-                element: <Publish />
+                element: <Suspense fallback="加载中..."><PublishLazy /></Suspense>
             },
             {
                 index: true,
-                element: <Home />
+                element: <Suspense fallback="加载中..."><HomeLazy /></Suspense>
             },
         ]
     }

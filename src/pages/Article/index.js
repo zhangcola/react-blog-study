@@ -170,7 +170,11 @@ const Article = () => {
                 pageSize: params.per_page,
                 total: articles.count,
                 onChange: (page, pageSize) => {
-                    setParams({...params, page})
+                    setParams({
+                        ...params, 
+                        page,
+                        per_page: pageSize
+                    })
                 }
             }} />
         </Card>
