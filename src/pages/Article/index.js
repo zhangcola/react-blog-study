@@ -6,6 +6,7 @@ import img404 from '@/assets/error.png'
 import { useEffect, useState } from "react";
 import request from "@/utils";
 import { useNavigate } from "react-router-dom";
+import { useChannel } from "@/hooks/useChannel";
 const { RangePicker } = DatePicker
 
 
@@ -80,15 +81,8 @@ const Article = () => {
 //             title: 'wkwebview离线化加载h5资源解决方案'
 //         }
 //    ]
+   const { channelList } = useChannel()
 
-   const [channels, setChannels] = useState([])
-   useEffect(() => {
-        async function getChannels() {
-            const res = await request.get('/channels')
-            setChannels(res.data.channels)
-        }
-        getChannels()
-    }, [])
 
     const [articles, setArticles] = useState({
         list:[],
@@ -155,13 +149,12 @@ const Article = () => {
                     placeholder="请选择频道"
                     defaultValue={'lucy'}
                     style={{width: '200px'}}
+                >
+                    {channelList.map(item => (
+                        <Select.Option key={item.id} value={item.id}>{item.name}</Select.Option>
+                    ))}
                     
-
-                    options={channels.map(item => ({
-                        label: item.name,
-                        value: item.id
-                    }))}
-                ></Select>
+                </Select>
             </FormItem>
             <FormItem label="日期" name="date">
                <RangePicker  locale={locale}></RangePicker>

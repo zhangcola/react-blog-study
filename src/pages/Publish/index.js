@@ -6,7 +6,8 @@ import { PlusOutlined} from "@ant-design/icons"
 import ReactQuill from "react-quill"
 import 'react-quill/dist/quill.snow.css'
 import './index.scss'
-import {request} from '@/utils/request'
+import { useChannel } from "@/hooks/useChannel"
+import { getArticleById } from "@/apis/article"
 
 const Publish = () => {
 
@@ -29,15 +30,26 @@ const Publish = () => {
         setImageList(info.fileList)
     }
 
-    const [channelList, setChannelList] = useState([])
+    const { channelList } = useChannel()
 
     useEffect(() => {
-        async function getChannels() {
-            const res = await request.get('/channels')
-            setChannelList(res.data.channels)
+        async function getArticle() {
+            // 根据文章id获取文章详情
+            const res = await getArticleById(articleId)
+            // 将数据设置到表单中
+            const data = res.data
+            const {cover} = data
+            form.setFieldsValue({
+                ...data,
+                type: data.cover.type
+            })
+            setImageList(cover.images.map(url => ({url})))
+            setImageType(cover.type)
         }
-        getChannels()
-    }, [])
+        if (articleId) {
+            getArticle()
+        }
+    }, [articleId, form])
 
     return (
         <div className = "publish">
